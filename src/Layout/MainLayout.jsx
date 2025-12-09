@@ -9,7 +9,7 @@ const MainLayout = () => {
     const noHeaderFooter = location.pathname.includes('login') || location.pathname.includes('register') || location.pathname.includes('404');
 
     return (
-        <div>
+        <div className="max-w-7xl mx-auto">
             {!noHeaderFooter && <Navbar />}
             <div className="min-h-screen">
                 <Outlet />

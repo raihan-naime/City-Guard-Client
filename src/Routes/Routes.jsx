@@ -22,6 +22,7 @@ import AdminPayments from "../pages/Dashboard/Admin/AdminPayments";
 import ErrorPage from "../pages/Shared/ErrorPage/ErrorPage";
 import AnimatedLoginCard from "../pages/Login/AnimatedLoginCard";
 import AnimatedRegistrationCard from "../pages/Register/AnimatedRegistrationCard";
+import AdminDashboard from "../pages/One/AdminDashboard";
 
 
 export const router = createBrowserRouter([
@@ -40,11 +41,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "register",
-        element: <Register />,
+        Component: AnimatedRegistrationCard
       },
       {
         path: "all-issues",
         element: <AllIssues />,
+      },
+      {
+        path: 'one',
+        Component: AdminDashboard
       },
       {
         path: "issues/:id",
@@ -57,7 +62,6 @@ export const router = createBrowserRouter([
       {
         path: "test",
         Component: AnimatedRegistrationCard
-
       },
     ],
   },
