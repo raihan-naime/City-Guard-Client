@@ -59,7 +59,7 @@ const IssueDetails = () => {
                              <div className={`badge ${issue.status === 'resolved' ? 'badge-success' : 'badge-ghost'}`}>{issue.status}</div>
                         </div>
                     </div>
-                    
+                    hi
                     <div className="flex items-center gap-4 mb-6">
                         <div className="avatar">
                             <div className="w-12 rounded-full">
