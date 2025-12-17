@@ -204,7 +204,7 @@ const handleDragEnd = useCallback((event, info) => {
   }, [slide, direction, handleDragEnd, x, scale, backgroundX]);
 
   return (
-    <div className="relative w-full overflow-hidden shadow-2xl rounded-2xl aspect-video max-h-[80vh]">
+    <div className="relative w-full overflow-hidden shadow-2xl rounded-2xl aspect-video max-h-[60vh]">
       <div className="w-full h-full relative">
         {/* AnimatePresence for smooth slide transitions (fade/slide-out) */}
         <AnimatePresence initial={false} custom={direction}>

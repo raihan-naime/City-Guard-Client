@@ -82,7 +82,7 @@ const HowItWorks = () => {
         whileInView={{ width: "100%" }}
         transition={{ duration: 1.5, delay: 0.5 }}
         viewport={{ once: true }}
-        className="h-1 bg-primary mt-20 rounded-full"
+        className="h-1 bg-linear-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% mt-20 rounded-full"
       />
 
     </section>

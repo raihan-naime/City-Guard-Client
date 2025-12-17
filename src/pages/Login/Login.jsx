@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 
 const Login = () => {
-    const { signIn, googleSignIn } = useAuth();
+    const { signIn } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -43,24 +43,7 @@ const Login = () => {
             })
     }
 
-    const handleGoogleSignIn = () => {
-        googleSignIn()
-            .then(result => {
-                Swal.fire({
-                    title: 'Google Sign In Successful.',
-                    showClass: {
-                        popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp'
-                    }
-                });
-                navigate(from, { replace: true });
-            })
-            .catch(err => {
-                setError(err.message);
-            })
-    }
+
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -92,9 +75,7 @@ const Login = () => {
                         </div>
                     </form>
                      <div className="divider">OR</div>
-                     <div className="p-4 pt-0">
-                        <button onClick={handleGoogleSignIn} className="btn btn-outline w-full">Google Sign In</button>
-                     </div>
+                     
                      <p className="text-center mb-4">New here? <Link to="/register" className="font-bold text-primary">Create an account</Link></p>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { AiOutlineGoogle, AiFillApple } from 'react-icons/ai'; // Icons for soci
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 // Custom Tailwind Class Definitions (Add these to your global CSS or in a utility plugin if not using JIT)
 // For demonstration, these are descriptive.
 /*
@@ -99,13 +100,11 @@ const AnimatedLoginCard = () => {
           <div className="max-w-md mx-auto">
             
             {/* Logo/Header - Retained existing SVG structure */}
-            <div className="flex items-center space-x-5 justify-center mb-8">
+            <div className="flex text-3xl text-black items-center space-x-5 justify-center mb-8">
               {/* NOTE: SVG fill color is black, you might want to change it to match a modern palette */}
-              <svg fill="none" viewBox="0 0 397 94" height="auto" width="85" xmlns="http://www.w3.org/2000/svg">
-                {/* ... SVG paths here (omitted for brevity) ... */}
-                <path fill="black" d="M128.72 39.9429L138.387 5.10122C139.027 2.79347 141.139 1.19507 143.547 1.19507H150.18C153.843 1.19507 156.423 4.76704 155.253 8.21447L136.91 62.2543C136.175 64.417 134.134 65.8735 131.837 65.8735H122.921C120.624 65.8735 118.583 64.417 117.848 62.2543L99.5067 8.21605C98.3361 4.76861 100.917 1.19664 104.579 1.19664H111.213C113.621 1.19664 115.734 2.79504 116.373 5.10279L126.039 39.9444C126.415 41.2969 128.344 41.2969 128.72 39.9444V39.9429Z"></path>
-                {/* ... other paths ... */}
-              </svg>
+              Welcome to CityGuard
+              
+              
             </div>
 
             <form onSubmit={handleLogin}>
@@ -181,23 +180,10 @@ const AnimatedLoginCard = () => {
 
             <div className="flex flex-col space-y-4 mt-4">
               {/* Google Sign In */}
-              <button
-              onClick={handleGoogleSignIn}
-                type="button"
-                className="flex items-center justify-center py-3 px-4 bg-white hover:bg-gray-100 border border-gray-300 text-gray-700 w-full transition ease-in duration-200 text-center text-base font-semibold shadow-sm rounded-lg button-hover-scale"
-              >
-                <AiOutlineGoogle size={24} className="text-red-500 mr-2" />
-                <span>Sign in with Google</span>
-              </button>
+              
+              <SocialLogin></SocialLogin>
 
-              {/* Apple Sign In */}
-              <button
-                type="button"
-                className="flex items-center justify-center py-3 px-4 bg-white hover:bg-gray-100 border border-gray-300 text-gray-700 w-full transition ease-in duration-200 text-center text-base font-semibold shadow-sm rounded-lg button-hover-scale"
-              >
-                <AiFillApple size={24} className="text-gray-900 mr-2" />
-                <span>Sign in with Apple</span>
-              </button>
+              
             </div>
 
             {/* Sign Up Link */}

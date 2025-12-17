@@ -64,7 +64,7 @@ const FeatureSection = () => {
             transition={{ delay: i * 0.1, duration: 0.6 }}
             viewport={{ once: true }}
             whileHover={{ scale: 1.05, rotateX: 5, rotateY: -5 }}
-            className="p-8 rounded-2xl bg-neutral text-neutral-content shadow-xl border border-primary/20 hover:shadow-2xl hover:border-primary transition-all duration-300"
+            className="p-8 rounded-2xl bg-base-200  shadow-xl border border-primary/20 hover:shadow-2xl hover:border-primary transition-all duration-300"
           >
             <div className="text-primary mb-4">{f.icon}</div>
             <h3 className="text-xl font-bold mb-2">{f.title}</h3>
