@@ -3,14 +3,13 @@ import useAuth from "../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AiFillApple, AiOutlineGoogle } from "react-icons/ai";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SocialLogin = () => {
   const { googleSignIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
 
   // Redirect to where they came from or home
   const from = location.state?.from?.pathname || "/";
@@ -24,7 +23,7 @@ const SocialLogin = () => {
           displayName: result.user.displayName,
           photoURL: result.user.photoURL,
         };
-        axiosSecure.post("/users/sync", userInfo).then((res) => {
+        axiosPublic.post("/users/sync", userInfo).then((res) => {
           console.log("user data has been stored", res.data);
           navigate(location?.state || "/");
         });

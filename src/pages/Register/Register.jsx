@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Register = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -97,6 +98,7 @@ const Register = () => {
                             <button className="btn btn-primary">Sign Up</button>
                         </div>
                     </form>
+                    <SocialLogin />
                     <p className="text-center mb-4">Already have an account? <Link to="/login" className="font-bold text-primary">Login</Link></p>
                 </div>
             </div>

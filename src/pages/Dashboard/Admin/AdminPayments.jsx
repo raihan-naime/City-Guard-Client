@@ -6,7 +6,10 @@ import {
   FaUser,
   FaClipboardList,
   FaCalendarAlt,
+  FaFilePdf,
 } from "react-icons/fa";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const AdminPayments = () => {
   const axiosSecure = useAxiosSecure();
@@ -18,6 +21,34 @@ const AdminPayments = () => {
       return res.data;
     },
   });
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.text("All Payments Report", 20, 10);
+    
+    const tableColumn = ["User", "Email", "Amount", "Purpose", "Transaction ID", "Date"];
+    const tableRows = [];
+
+    payments.forEach(pay => {
+        const paymentData = [
+            pay.user?.name || "Unknown",
+            pay.user?.email || "N/A",
+            `$${pay.amount}`,
+            pay.purpose,
+            pay.transactionId,
+            new Date(pay.date).toLocaleDateString()
+        ];
+        tableRows.push(paymentData);
+    });
+
+    autoTable(doc, {
+        head: [tableColumn],
+        body: tableRows,
+        startY: 20
+    });
+
+    doc.save("payments_report.pdf");
+  };
 
   return (
     <motion.div
@@ -35,6 +66,12 @@ const AdminPayments = () => {
       >
         <FaClipboardList className="text-pink-500" /> All Payments
       </motion.h2>
+
+      <div className="flex justify-end mb-4">
+          <button onClick={handleDownloadPDF} className="btn bg-red-500 hover:bg-red-600 text-white flex items-center gap-2">
+              <FaFilePdf /> Download PDF
+          </button>
+      </div>
 
       <div className="overflow-x-auto rounded-lg">
         <motion.table

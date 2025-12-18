@@ -39,7 +39,7 @@ const DashboardLayout = () => {
         `sidebar-link ${isActive ? "active-link" : ""}`;
 
     return (
-        <div className="drawer lg:drawer-open min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="drawer lg:drawer-open min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-500">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
             {/* Main Content */}
@@ -51,7 +51,7 @@ const DashboardLayout = () => {
                     Open Menu
                 </label>
 
-                <div className="page-animate text-slate-800">
+                <div className="page-animate">
                     <Outlet />
                 </div>
             </div>
@@ -61,18 +61,17 @@ const DashboardLayout = () => {
                 <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
 
                 <ul className="menu p-6 w-80 min-h-full
-                    bg-white/60 backdrop-blur-2xl
-                    border-r border-slate-200
+                    glass-effect
+                    border-r border-[var(--glass-border)]
                     shadow-[0_20px_50px_rgba(0,0,0,0.08)]
-                    text-slate-700">
+                    text-[var(--text-primary)]">
 
                     {/* Brand */}
                     <div className="mb-10 text-center animate-slideIn">
-                        <h2 className="text-3xl font-extrabold tracking-tight
-                            bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+                        <h2 className="text-3xl font-extrabold tracking-tight text-gradient">
                             CityGuard
                         </h2>
-                        <p className="text-xs uppercase tracking-widest text-slate-400 mt-1">
+                        <p className="text-xs uppercase tracking-widest opacity-60 mt-1">
                             Smart City Dashboard
                         </p>
                     </div>
@@ -129,11 +128,11 @@ const DashboardLayout = () => {
                 {`
                 .sidebar-link {
                     @apply flex items-center gap-3 px-4 py-3 rounded-xl
-                           font-medium transition-all duration-300 ease-out;
+                           font-medium transition-all duration-300 ease-out text-[var(--text-primary)];
                 }
 
                 .sidebar-link:hover {
-                    background: linear-gradient(to right, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+                    background: rgba(99, 102, 241, 0.1); 
                     transform: translateX(4px);
                 }
 
@@ -143,11 +142,12 @@ const DashboardLayout = () => {
 
                 .sidebar-link:hover svg {
                     transform: scale(1.1);
+                    color: var(--color-primary, #6366f1);
                 }
 
                 .active-link {
-                    background: linear-gradient(to right, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
-                    color: #2563eb;
+                    background: rgba(99, 102, 241, 0.15);
+                    color: var(--color-primary, #6366f1);
                     font-weight: 600;
                     position: relative;
                 }
@@ -160,7 +160,7 @@ const DashboardLayout = () => {
                     height: 76%;
                     width: 4px;
                     border-radius: 999px;
-                    background: linear-gradient(to bottom, #2563eb, #7c3aed);
+                    background: var(--color-primary, #6366f1);
                     animation: indicator 0.35s ease-out;
                 }
 

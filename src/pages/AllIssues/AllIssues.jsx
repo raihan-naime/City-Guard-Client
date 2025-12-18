@@ -180,7 +180,7 @@ const AllIssues = () => {
                     </span>
                   </h2>
 
-                  <p className="text-sm text-gray-500 flex items-center gap-1">
+                  <p className="text-sm text-[var(--text-secondary)] flex items-center gap-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4"
@@ -204,7 +204,7 @@ const AllIssues = () => {
                     {issue.location}
                   </p>
 
-                  <p className="text-sm line-clamp-2 text-gray-600">
+                  <p className="text-sm line-clamp-2 text-[var(--text-secondary)]">
                     {issue.description}
                   </p>
 

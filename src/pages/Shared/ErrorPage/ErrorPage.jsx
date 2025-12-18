@@ -22,10 +22,9 @@ const ErrorPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-            {/* <img className="absolute w-full h-full" src="https://i.ibb.co/pCMD6zT/image.png" alt="" /> */}
+        <div className="flex items-center justify-center min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-500">
             <motion.div
-                className="card w-full max-w-lg bg-gray-800 shadow-2xl p-10 text-center border border-gray-700"
+                className="card w-full max-w-lg glass-effect shadow-2xl p-10 text-center"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -37,46 +36,48 @@ const ErrorPage = () => {
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.1 }}
                 >
-                    <FiAlertTriangle className="text-error w-16 h-16" /> {/* daisyUI error color */}
+                    <FiAlertTriangle className="text-error w-16 h-16 drop-shadow-lg" />
                 </motion.div>
 
                 {/* 404 Header */}
                 <motion.h1 
-                    className="text-9xl font-extrabold text-error mb-4 tracking-widest"
+                    className="text-9xl font-extrabold mb-4 tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500"
                     variants={numberVariants}
                 >
                     404
                 </motion.h1>
 
                 {/* Sub-Headline */}
-                <h2 className="text-3xl font-bold mb-3 text-gray-200">
-                    <span className="text-primary">Ouch!</span> Page not found.
+                <h2 className="text-3xl font-bold mb-3">
+                    <span className="text-secondary">Ouch!</span> Page not found.
                 </h2>
 
                 {/* Description */}
-                <p className="mb-8 text-gray-400">
+                <p className="mb-8 opacity-70">
                     The requested page may have been moved, deleted, or is temporarily unavailable. We're sorry for the inconvenience.
                 </p>
 
                 {/* Action Button */}
-                <Link to="/">
-                    <motion.button
-                        className="btn btn-primary btn-lg w-full md:w-auto"
-                        variants={buttonVariants}
-                        whileHover="hover"
-                        whileTap="tap"
-                    >
-                        <span className="mr-2">🏡</span> Take Me Home
-                    </motion.button>
-                </Link>
-
-                {/* Additional professional links (Optional) */}
-                <div className="mt-6 space-x-4 text-sm">
-                    <Link to="/contact" className="link link-hover text-gray-400">
+                <div className="flex flex-col md:flex-row justify-center gap-4">
+                     <Link to="/">
+                        <motion.button
+                            className="btn btn-primary btn-lg w-full md:w-auto shadow-lg"
+                            variants={buttonVariants}
+                            whileHover="hover"
+                            whileTap="tap"
+                        >
+                            <span className="mr-2">🏡</span> Take Me Home
+                        </motion.button>
+                    </Link>
+                </div>
+               
+                {/* Additional professional links */}
+                <div className="mt-8 space-x-4 text-sm opacity-60">
+                    <Link to="/contact" className="hover:text-primary transition-colors">
                         Contact Support
                     </Link>
-                    <span className="text-gray-600">|</span>
-                    <Link to="/sitemap" className="link link-hover text-gray-400">
+                    <span>|</span>
+                    <Link to="#" className="hover:text-primary transition-colors">
                         View Sitemap
                     </Link>
                 </div>

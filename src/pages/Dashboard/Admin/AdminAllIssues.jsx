@@ -1,11 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import { motion } from "framer-motion";
-import { FaUserPlus, FaBan, FaClipboardList } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaUserPlus, FaBan, FaClipboardList, FaTimes } from "react-icons/fa";
+import { useState } from "react";
 
 const AdminAllIssues = () => {
     const axiosSecure = useAxiosSecure();
+    const [assignModalOpen, setAssignModalOpen] = useState(false);
+    const [selectedIssue, setSelectedIssue] = useState(null);
+    const [selectedStaffId, setSelectedStaffId] = useState("");
 
     const { data: issues = [], refetch } = useQuery({
         queryKey: ['admin-issues'],
@@ -23,27 +27,53 @@ const AdminAllIssues = () => {
         }
     });
 
-    const handleAssign = async (issueId, staffId) => {
-        if(!staffId) return;
+    const openAssignModal = (issue) => {
+        setSelectedIssue(issue);
+        setSelectedStaffId("");
+        setAssignModalOpen(true);
+    };
+
+    const handleAssign = async () => {
+        if(!selectedStaffId || !selectedIssue) {
+            Swal.fire('Error', 'Please select a staff member', 'error');
+            return;
+        }
+
         try {
-            await axiosSecure.patch(`/issues/${issueId}/assign`, { staffId });
+            await axiosSecure.patch(`/issues/${selectedIssue._id}/assign`, { staffId: selectedStaffId });
             refetch();
-            Swal.fire('Success', 'Staff assigned', 'success');
+            Swal.fire('Success', 'Staff assigned successfully', 'success');
+            setAssignModalOpen(false);
         } catch (error) {
-            Swal.fire('Error', 'Failed to assign', 'error');
+            Swal.fire('Error', error.response?.data?.message || 'Failed to assign', 'error');
         }
     }
 
     const handleReject = async (issueId) => {
-        try {
-            await axiosSecure.patch(`/issues/${issueId}/status`, { status: 'rejected' });
-            refetch();
-        } catch(e) { /* ... */ }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to reject this issue?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, reject it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axiosSecure.patch(`/issues/${issueId}/status`, { status: 'rejected' });
+                    refetch();
+                    Swal.fire('Rejected!', 'The issue has been rejected.', 'success');
+                } catch(e) { 
+                    Swal.fire('Error', 'Failed to reject', 'error');
+                }
+            }
+        });
     }
 
     return (
         <motion.div 
-            className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-lg"
+            className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow-lg relative"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7 }}
@@ -53,18 +83,12 @@ const AdminAllIssues = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                whileHover={{ scale: 1.03 }}
             >
                 <FaClipboardList /> All Issues (Admin)
             </motion.h2>
 
-            <div className="overflow-x-auto">
-                <motion.table
-                    className="table w-full text-left rounded-lg overflow-hidden shadow-md"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                >
+            <div className="overflow-x-auto min-h-[400px]">
+                <table className="table w-full text-left rounded-lg overflow-hidden shadow-md">
                     <thead className="bg-gradient-to-r from-purple-500 to-blue-500 text-white">
                         <tr>
                             <th className="p-3">Title</th>
@@ -75,14 +99,7 @@ const AdminAllIssues = () => {
                     </thead>
                     <tbody>
                         {issues.map(issue => (
-                            <motion.tr
-                                key={issue._id}
-                                className="even:bg-gray-100 hover:bg-purple-50 cursor-pointer"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                                whileHover={{ scale: 1.02, boxShadow: "0px 8px 20px rgba(0,0,0,0.1)" }}
-                            >
+                            <tr key={issue._id} className="even:bg-gray-100 hover:bg-purple-50">
                                 <td className="p-3 font-medium">{issue.title}</td>
                                 <td className="p-3">
                                     <span className={`font-semibold ${issue.status === 'pending' ? 'text-yellow-600' : issue.status === 'resolved' ? 'text-green-600' : 'text-red-600'}`}>
@@ -91,56 +108,85 @@ const AdminAllIssues = () => {
                                 </td>
                                 <td className="p-3">
                                     {issue.assignedTo ? (
-                                        <motion.div 
-                                            className="flex items-center gap-2 text-green-700 font-semibold"
-                                            whileHover={{ scale: 1.05, color: "#6b46c1" }}
-                                        >
+                                        <div className="flex items-center gap-2 text-green-700 font-semibold">
                                             <FaUserPlus /> {issue.assignedTo.name}
-                                        </motion.div>
-                                    ) : (
-                                        <div className="dropdown dropdown-right">
-                                            <motion.div 
-                                                tabIndex={0} 
-                                                role="button" 
-                                                className="btn btn-xs btn-outline btn-info flex items-center gap-2"
-                                                whileHover={{ scale: 1.05, backgroundColor: "#6b46c1", color: "#fff" }}
-                                            >
-                                                Assign Staff <FaUserPlus />
-                                            </motion.div>
-                                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow-lg bg-white rounded-box w-52">
-                                                {staffList.map(staff => (
-                                                    <motion.li 
-                                                        key={staff._id} 
-                                                        whileHover={{ scale: 1.05, backgroundColor: "#e9d8fd", borderRadius: 6 }}
-                                                    >
-                                                        <a 
-                                                            onClick={() => handleAssign(issue._id, staff._id)} 
-                                                            className="flex items-center gap-2 p-1 rounded"
-                                                        >
-                                                            <FaUserPlus className="text-purple-500"/> {staff.name}
-                                                        </a>
-                                                    </motion.li>
-                                                ))}
-                                            </ul>
                                         </div>
+                                    ) : (
+                                        <button 
+                                            onClick={() => openAssignModal(issue)}
+                                            className="btn btn-xs btn-outline btn-info flex items-center gap-2"
+                                        >
+                                            Assign Staff <FaUserPlus />
+                                        </button>
                                     )}
                                 </td>
                                 <td className="p-3">
                                     {issue.status === 'pending' && (
-                                        <motion.button 
+                                        <button 
                                             onClick={() => handleReject(issue._id)} 
-                                            className="btn btn-xs btn-error flex items-center gap-1"
-                                            whileHover={{ scale: 1.1, backgroundColor: "#c53030" }}
+                                            className="btn btn-xs btn-error flex items-center gap-1 text-white"
                                         >
                                             <FaBan /> Reject
-                                        </motion.button>
+                                        </button>
                                     )}
                                 </td>
-                            </motion.tr>
+                            </tr>
                         ))}
                     </tbody>
-                </motion.table>
+                </table>
             </div>
+
+            {/* Assign Staff Modal */}
+            <AnimatePresence>
+                {assignModalOpen && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+                    >
+                        <motion.div 
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm relative"
+                        >
+                            <button 
+                                onClick={() => setAssignModalOpen(false)}
+                                className="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition-colors"
+                            >
+                                <FaTimes size={24} />
+                            </button>
+                            <h3 className="text-xl font-bold mb-4 text-center text-purple-700">Assign Staff</h3>
+                            
+                            <div className="form-control w-full mb-6">
+                                <label className="label">
+                                    <span className="label-text">Select a Staff Member</span>
+                                </label>
+                                <select 
+                                    className="select select-bordered w-full"
+                                    value={selectedStaffId}
+                                    onChange={(e) => setSelectedStaffId(e.target.value)}
+                                >
+                                    <option value="" disabled>Pick one</option>
+                                    {staffList.map(staff => (
+                                        <option key={staff._id} value={staff._id}>{staff.name} ({staff.email})</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <button 
+                                onClick={handleAssign}
+                                className="btn btn-primary w-full"
+                            >
+                                Confirm Assignment
+                            </button>
+                            
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
         </motion.div>
     );
 };

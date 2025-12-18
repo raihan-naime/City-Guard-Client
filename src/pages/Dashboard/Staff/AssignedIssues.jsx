@@ -5,14 +5,24 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import { useState } from "react";
+
 const AssignedIssues = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
+    const [filterStatus, setFilterStatus] = useState('');
+    const [filterPriority, setFilterPriority] = useState('');
+
     const { data: issues = [], refetch } = useQuery({
-        queryKey: ['assigned-issues', user?.email],
+        queryKey: ['assigned-issues', user?.email, filterStatus, filterPriority],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/issues?assignedTo=${user.email}`);
+            const params = {
+                assignedTo: user.email,
+                status: filterStatus || undefined,
+                priority: filterPriority || undefined
+            };
+            const res = await axiosSecure.get('/issues', { params });
             return res.data.issues;
         }
     });
@@ -37,6 +47,32 @@ const AssignedIssues = () => {
             <h2 className="text-3xl font-bold mb-6 text-slate-800">
                 Assigned Issues
             </h2>
+
+            <div className="flex gap-4 mb-6">
+                <select 
+                    className="select select-bordered w-full max-w-xs"
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                >
+                    <option value="">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="working">Working</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="closed">Closed</option>
+                </select>
+
+                <select 
+                    className="select select-bordered w-full max-w-xs"
+                    value={filterPriority}
+                    onChange={(e) => setFilterPriority(e.target.value)}
+                >
+                    <option value="">All Priorities</option>
+                    <option value="low">Low</option>
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
 
             <div className=" no-scrollbar rounded-xl border border-slate-200">
 
@@ -83,6 +119,7 @@ const AssignedIssues = () => {
                                     >
                                         <option value="pending" disabled>Pending</option>
                                         <option value="in-progress">In Progress</option>
+                                        <option value="working">Working</option>
                                         <option value="resolved">Resolved</option>
                                         <option value="closed">Closed</option>
                                     </select>

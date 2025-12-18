@@ -7,6 +7,8 @@ import AllIssues from "../pages/AllIssues/AllIssues";
 import IssueDetails from "../pages/IssueDetails/IssueDetails";
 
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import StaffRoute from "./StaffRoute";
 import DashboardLayout from "../Layout/DashboardLayout";
 import CitizenHome from "../pages/Dashboard/CitizenHome/CitizenHome";
 import MyIssues from "../pages/Dashboard/MyIssues/MyIssues";
@@ -93,32 +95,32 @@ export const router = createBrowserRouter([
       // Staff
       {
         path: "staff-home",
-        element: <StaffHome />,
+        element: <StaffRoute><StaffHome /></StaffRoute>,
       },
       {
         path: "assigned-issues",
-        element: <AssignedIssues />,
+        element: <StaffRoute><AssignedIssues /></StaffRoute>,
       },
       // Admin
       {
         path: "admin-home",
-        element: <AdminHome />,
+        element: <AdminRoute><AdminHome /></AdminRoute>,
       },
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: <AdminRoute><ManageUsers /></AdminRoute>,
       },
       {
         path: "manage-staff",
-        element: <ManageStaff />,
+        element: <AdminRoute><ManageStaff /></AdminRoute>,
       },
       {
         path: "all-issues-admin",
-        element: <AdminAllIssues />,
+        element: <AdminRoute><AdminAllIssues /></AdminRoute>,
       },
       {
         path: "payments-admin",
-        element: <AdminPayments />,
+        element: <AdminRoute><AdminPayments /></AdminRoute>,
       },
     ],
   },

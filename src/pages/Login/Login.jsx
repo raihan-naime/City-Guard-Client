@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 
 const Login = () => {
@@ -75,7 +76,7 @@ const Login = () => {
                         </div>
                     </form>
                      <div className="divider">OR</div>
-                     
+                     <SocialLogin />
                      <p className="text-center mb-4">New here? <Link to="/register" className="font-bold text-primary">Create an account</Link></p>
                 </div>
             </div>

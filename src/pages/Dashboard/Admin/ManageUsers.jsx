@@ -41,17 +41,17 @@ const ManageUsers = () => {
     };
 
     return (
-        <div className="p-8 bg-gray-50 min-h-screen">
-            <h2 className="text-4xl font-extrabold mb-8 text-gray-800">Manage Citizens</h2>
+        <div className="p-8 bg-[var(--bg-primary)] min-h-screen">
+            <h2 className="text-4xl font-extrabold mb-8 text-[var(--text-primary)]">Manage Citizens</h2>
 
             <motion.div
-                className="overflow-x-auto shadow-lg rounded-xl bg-white"
+                className="overflow-x-auto shadow-lg rounded-xl bg-[var(--card-bg)] border border-[var(--glass-border)]"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
             >
                 <table className="min-w-full table-auto border-collapse">
-                    <thead className="bg-gray-100 text-gray-700 uppercase text-sm font-medium tracking-wider">
+                    <thead className="bg-[var(--bg-secondary)] text-[var(--text-secondary)] uppercase text-sm font-medium tracking-wider">
                         <tr>
                             <th className="py-4 px-6 text-left">Name</th>
                             <th className="py-4 px-6 text-left">Email</th>
@@ -65,11 +65,11 @@ const ManageUsers = () => {
                             <motion.tr
                                 key={user._id}
                                 variants={rowVariants}
-                                className="border-b border-gray-200 last:border-none hover:bg-gray-50 transition-colors duration-200"
+                                className="border-b border-[var(--glass-border)] last:border-none hover:bg-[var(--bg-secondary)] transition-colors duration-200"
                             >
-                                <td className="py-4 px-6 font-medium text-gray-800">{user.name}</td>
-                                <td className="py-4 px-6 text-gray-600">{user.email}</td>
-                                <td className="py-4 px-6 capitalize text-gray-600">{user.role}</td>
+                                <td className="py-4 px-6 font-medium text-[var(--text-primary)]">{user.name}</td>
+                                <td className="py-4 px-6 text-[var(--text-secondary)]">{user.email}</td>
+                                <td className="py-4 px-6 capitalize text-[var(--text-secondary)]">{user.role}</td>
                                 <td className={`py-4 px-6 font-semibold ${user.isBlocked ? 'text-red-600' : 'text-green-600'}`}>
                                     {user.isBlocked ? 'Blocked' : 'Active'}
                                 </td>

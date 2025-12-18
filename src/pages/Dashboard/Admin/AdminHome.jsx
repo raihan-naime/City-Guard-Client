@@ -1,6 +1,6 @@
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import { FaUsers, FaClipboardList, FaCheckCircle, FaMoneyCheckAlt } from "react-icons/fa";
+import { FaUsers, FaClipboardList, FaCheckCircle, FaMoneyCheckAlt, FaTimesCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 import logo from "../../../assets/react.svg"; // your logo path
 
@@ -15,20 +15,28 @@ const AdminHome = () => {
                 axiosSecure.get('/issues?limit=1000'),
                 axiosSecure.get('/payments')
             ]);
+            
+            const issues = issuesRes.data.issues || [];
 
             return {
                 users: usersRes.data.length,
-                issues: issuesRes.data.issues ? issuesRes.data.issues.length : 0,
-                resolved: issuesRes.data.issues ? issuesRes.data.issues.filter(i => i.status === 'resolved').length : 0,
-                payments: paymentsRes.data.length
+                totalIssues: issues.length,
+                resolved: issues.filter(i => i.status === 'resolved').length,
+                pending: issues.filter(i => i.status === 'pending').length,
+                rejected: issues.filter(i => i.status === 'rejected').length,
+                payments: paymentsRes.data.length,
+                latestUsers: usersRes.data.slice(-5).reverse(),
+                latestPayments: paymentsRes.data.slice(0, 5) // payments already sorted desc in backend
             };
         }
     });
 
     const statItems = [
         { title: 'Total Users', value: stats.users, icon: <FaUsers className="text-blue-500 w-6 h-6" /> },
-        { title: 'Total Issues', value: stats.issues, icon: <FaClipboardList className="text-yellow-500 w-6 h-6" /> },
+        { title: 'Total Issues', value: stats.totalIssues, icon: <FaClipboardList className="text-indigo-500 w-6 h-6" /> },
         { title: 'Resolved Issues', value: stats.resolved, icon: <FaCheckCircle className="text-green-500 w-6 h-6" /> },
+        { title: 'Pending Issues', value: stats.pending, icon: <FaClipboardList className="text-yellow-500 w-6 h-6" /> },
+        { title: 'Rejected Issues', value: stats.rejected, icon: <FaTimesCircle className="text-red-500 w-6 h-6" /> },
         { title: 'Total Payments', value: stats.payments, icon: <FaMoneyCheckAlt className="text-purple-500 w-6 h-6" /> },
     ];
 
@@ -80,18 +88,72 @@ const AdminHome = () => {
                 {statItems.map((stat, index) => (
                     <motion.div
                         key={index}
-                        className="stat p-6 rounded-2xl shadow-lg bg-gradient-to-tr from-white/80 to-white/50 backdrop-blur-lg cursor-pointer"
+                        className="stat p-6 rounded-2xl shadow-lg bg-[var(--card-bg)] backdrop-blur-lg cursor-pointer border border-[var(--glass-border)]"
                         variants={itemVariants}
                         whileHover="hover"
                     >
                         <div className="flex items-center gap-3 mb-4">
                             {stat.icon}
-                            <div className="stat-title text-slate-500 font-semibold">{stat.title}</div>
+                            <div className="stat-title text-[var(--text-secondary)] font-semibold">{stat.title}</div>
                         </div>
-                        <div className="stat-value text-2xl font-bold text-slate-800">{stat.value}</div>
+                        <div className="stat-value text-2xl font-bold text-[var(--text-primary)]">{stat.value}</div>
                     </motion.div>
                 ))}
             </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+                {/* Latest Users */}
+                <motion.div 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="bg-[var(--card-bg)] p-6 rounded-2xl shadow-xl border border-[var(--glass-border)]"
+                >
+                    <h3 className="text-xl font-bold mb-4 text-[var(--text-primary)]">Latest Registered Users</h3>
+                    <table className="table w-full text-sm">
+                        <thead>
+                            <tr className="bg-[var(--bg-secondary)] text-[var(--text-secondary)]">
+                                <th className="py-3 px-4 rounded-l-lg">Name</th>
+                                <th className="py-3 px-4 rounded-r-lg">Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {stats.latestUsers?.map((u, i) => (
+                                <tr key={i} className="border-b border-[var(--glass-border)] hover:bg-[var(--bg-secondary)]">
+                                    <td className="py-3 px-4 font-medium text-[var(--text-primary)]">{u.name}</td>
+                                    <td className="py-3 px-4 text-[var(--text-secondary)] capitalize">{u.role}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </motion.div>
+
+                {/* Latest Payments */}
+                <motion.div 
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="bg-[var(--card-bg)] p-6 rounded-2xl shadow-xl border border-[var(--glass-border)]"
+                >
+                    <h3 className="text-xl font-bold mb-4 text-[var(--text-primary)]">Latest Payments Received</h3>
+                    <table className="table w-full text-sm">
+                        <thead>
+                            <tr className="bg-[var(--bg-secondary)] text-[var(--text-secondary)]">
+                                <th className="py-3 px-4 rounded-l-lg">User</th>
+                                <th className="py-3 px-4">Amount</th>
+                                <th className="py-3 px-4 rounded-r-lg">Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {stats.latestPayments?.map((p, i) => (
+                                <tr key={i} className="border-b border-[var(--glass-border)] hover:bg-[var(--bg-secondary)]">
+                                    <td className="py-3 px-4 font-medium text-[var(--text-primary)]">{p.user?.name || 'Unknown'}</td>
+                                    <td className="py-3 px-4 font-bold text-green-500">${p.amount}</td>
+                                    <td className="py-3 px-4 text-[var(--text-secondary)] capitalize">{p.purpose}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </motion.div>
+            </div>
         </motion.div>
     );
 };

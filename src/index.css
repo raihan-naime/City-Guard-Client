@@ -1,10 +1,171 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
+:root {
+  --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Poppins', sans-serif;
+  
+  /* Light Theme - Clean & Premium */
+  --bg-primary: #f5f7fa; 
+  --bg-secondary: #ffffff;
+  --text-primary: #1f1f25;
+  --text-secondary: #71717a;
+  
+  --accent-primary: #f9004d; /* Lendex Red-Pink */
+  --accent-secondary: #5f0099; /* Deep Purple */
+  --accent-gradient: linear-gradient(to right, #f9004d 0%, #5f0099 100%);
+  
+  --card-bg: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --shadow-color: rgba(95, 0, 153, 0.15);
+}
 
+[data-theme='dark'] {
+  /* Dark Theme - Lendex Vibe */
+  --bg-primary: #101010; /* Very Dark Grey/Black */
+  --bg-secondary: #191919; 
+  --text-primary: #ffffff;
+  --text-secondary: #c4cfde;
+  
+  --card-bg: #1f1f1f;
+  --glass-bg: rgba(31, 31, 31, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
 
+body {
+  font-family: var(--font-secondary);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  line-height: 1.6;
+}
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  color: var(--text-primary);
+}
 
+/* --- Utilities --- */
 
+/* Text Gradient */
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
 
+/* Custom Buttons matching Lendex style */
+.btn-primary-lendex {
+  background: var(--accent-gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+.btn-primary-lendex:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px var(--shadow-color);
+}
+
+.btn-primary-lendex::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: #1f1f25;
+  z-index: -1;
+  transition: width 0.4s cubic-bezier(0.5, 0.2, 0.3, 1);
+}
+
+.btn-primary-lendex:hover::before {
+  width: 100%;
+}
+
+/* Glassmorphism Card override */
+.glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 40px -10px var(--shadow-color);
+  border-radius: 16px;
+}
+
+/* 3D Card Effect */
+.card-hover {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+  background: var(--card-bg);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-secondary); 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary); 
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* DaisyUI / Tailwind Overrides for Global Consistency */
+.btn-primary {
+  background-image: var(--accent-gradient) !important;
+  border: none !important;
+  color: white !important;
+}
+
+.tab-active {
+    color: var(--accent-primary) !important;
+    border-color: var(--accent-primary) !important;
+}
+
+/* Badge Updates */
+.badge-primary {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+}
