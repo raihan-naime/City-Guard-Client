@@ -107,7 +107,7 @@ const IssueDetails = () => {
     if (isLoading) return <div className="text-center py-20"><span className="loading loading-spinner loading-lg"></span></div>;
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="container my-10 mx-auto px-4 py-8 max-w-7xl">
             <div className="flex mt-8 flex-col lg:flex-row gap-10">
                 {/* Left: Issue Info */}
                 <motion.div 
