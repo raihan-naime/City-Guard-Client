@@ -4,7 +4,7 @@ import axios from "axios";
 // import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://city-guard-server-liard.vercel.app'
 });
 
 const useAxiosSecure = () => {

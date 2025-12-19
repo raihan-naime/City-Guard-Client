@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { FcLike } from "react-icons/fc";
 
 const AllIssues = () => {
   const axiosPublic = useAxiosPublic();
@@ -211,23 +212,11 @@ const AllIssues = () => {
                   <div className="card-actions justify-between items-center mt-4">
                     <button
                       onClick={() => handleUpvote(issue._id, issue.author?._id)}
-                      className="btn btn-sm btn-ghost gap-2 
+                      className="btn btn-sm gap-2 
                                                        hover:bg-primary/10 transition-all"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
+                      
+                      <FcLike />
                       {issue.upvoteCount}
                     </button>
 

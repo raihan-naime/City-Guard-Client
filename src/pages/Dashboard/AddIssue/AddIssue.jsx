@@ -4,8 +4,11 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiSend, FiMapPin, FiTag, FiImage, FiFileText } from "react-icons/fi";
+import useAuth from "../../../hooks/useAuth";
 
 const AddIssue = () => {
+  const {user} = useAuth();
+  console.log("Reporting user:", user);
   const {
     register,
     handleSubmit,
@@ -22,8 +25,13 @@ const AddIssue = () => {
       category: data.category,
       location: data.location,
       image: data.image, // URL
+      name: user?.displayName || "Anonymous",
+      email: user?.email || "N/A",
+      status: "Pending",
+      createdAt: new Date(),
     };
-
+    // console.log(data);
+    
     try {
       const res = await axiosSecure.post("/issues", issueData);
       if (res.data._id) {
