@@ -25,6 +25,8 @@ import ErrorPage from "../pages/Shared/ErrorPage/ErrorPage";
 import AnimatedLoginCard from "../pages/Login/AnimatedLoginCard";
 import AnimatedRegistrationCard from "../pages/Register/AnimatedRegistrationCard";
 import AdminDashboard from "../pages/One/AdminDashboard";
+import { Services } from "../pages/Services/Services";
+import Contact from "../pages/Contact/Contact";
 
 
 export const router = createBrowserRouter([
@@ -62,8 +64,12 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "test",
-        Component: AnimatedRegistrationCard
+        path: "services",
+        Component: Services
+      },
+      {
+        path: "contact",
+        Component: Contact
       },
     ],
   },

@@ -24,7 +24,7 @@ const Navbar = () => {
     const navOptions = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/all-issues">All Issues</NavLink></li>
-        <li><NavLink to="/how-it-works">How it Works</NavLink></li> 
+        <li><NavLink to="/services">Services</NavLink></li> 
         <li><NavLink to="/contact">Contact</NavLink></li>
         {/* Extra page */}
         {!user && <li><NavLink to="/login">Login</NavLink></li>}
