@@ -132,7 +132,7 @@ const BannerSlider = ({ slides = exampleSlides, autoPlayInterval = 8000, enableA
         onDragEnd={handleDragEnd}
         dragElastic={0.5}
         style={{ x, scale, perspective: 1000 }}
-        className="absolute inset-0 w-full h-full cursor-grab"
+        className="absolute mt-2 inset-0 w-full h-full cursor-grab"
       >
         <motion.div
           className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
