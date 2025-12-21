@@ -66,9 +66,7 @@ const AllIssues = () => {
       </h2>
 
       {/* Filters */}
-      <div
-        className="flex flex-col md:flex-row gap-4 mb-10 justify-between items-center bg-base-200/60 backdrop-blur-lg p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300"
-      >
+      <div className="flex flex-col md:flex-row gap-4 mb-10 justify-between items-center bg-base-200/60 backdrop-blur-lg p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300">
         {/* Search */}
         <div className="relative w-full md:w-1/3 group">
           <input
@@ -160,9 +158,13 @@ const AllIssues = () => {
                                                    transition-transform duration-500 
                                                    group-hover:scale-105"
                   />
-                  {issue.priority === "high" && (
+                  {issue.priority === "high" ? (
                     <div className="absolute top-3 right-3 badge badge-error text-white shadow">
                       Top Priority
+                    </div>
+                  ) : (
+                    <div className="absolute top-3 right-3 badge badge-success text-white shadow">
+                      Normal Priority
                     </div>
                   )}
                 </figure>
@@ -215,7 +217,6 @@ const AllIssues = () => {
                       className="btn btn-sm gap-2 
                                                        hover:bg-primary/10 transition-all"
                     >
-                      
                       <FcLike />
                       {issue.upvoteCount}
                     </button>

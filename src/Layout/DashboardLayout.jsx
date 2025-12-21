@@ -30,7 +30,10 @@ const DashboardLayout = () => {
     const handleLogOut = () => {
         logOut().then(() => navigate('/'));
     };
-
+    console.log(dbUser);
+    console.log(user);
+    
+    
     const isAdmin = dbUser?.role === 'admin';
     const isStaff = dbUser?.role === 'staff';
     const isCitizen = dbUser?.role === 'citizen';
